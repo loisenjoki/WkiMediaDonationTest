@@ -27,4 +27,5 @@ CREATE TABLE IF NOT EXISTS tbl_test(
     comments text DEFAULT NULL
 );
 ```
-run the project ``` npm start ```
+or import donors_tbl.sql file into your MySQL database
+####run the project ``` npm start ```
