@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width initial-scale=1.0" />
+  <title>Please confirm this information</title>
+  <link rel="stylesheet" href="stylesheets/style.css" />
+
+</head>
+<body>
+  <div id="app">
+      <h3>please confrim your information</h3>
+        <p id="firstname"></p>
+        <p id="lastname"></p>
+        <p id="street"></p>
+        <p id="city"></p>
+        <p id="state"></p>
+        <p id="county"></p>
+        <p id="postal"></p>
+        <p id="email"></p>
+        <p id="conttype"></p>
+        <p id="paytype"></p>
+        <p id="donations"></p>
+        <p id="inUSD"></p>
+        <p id="donations_yearly"></p>
+        <p id="donationFrequency"></p>
+        <p id="comments"></p>
+        <button type="button" style="width: 10rem;" onclick="donate()">Submit</button>
+         <button type="button" style="width: 10rem;" onclick="cancel()">Cancel</button>
+
+</div>
+
+<script>
+  var request = new XMLHttpRequest()
+  var editbtn = document.getElementById('editbtn');
+    var formData = sessionStorage.getItem('mydata');
+    var newdata = JSON.parse(formData);
+     var indollar = 0;
+  document.getElementById("firstname").innerHTML = 'FirstName:'+newdata.first_name;
+   document.getElementById("lastname").innerHTML = 'LastName:'+newdata.last_name;
+   document.getElementById("street").innerHTML = 'Street Address:'+newdata.street_address;
+   document.getElementById("city").innerHTML = 'City:'+newdata.city;
+   document.getElementById("state").innerHTML = 'State region:'+newdata.state_region;
+   document.getElementById("county").innerHTML = 'Country:'+newdata.country;
+   document.getElementById("postal").innerHTML = 'Postal Code:'+newdata.postal_code;
+   document.getElementById("email").innerHTML = 'Email:'+newdata.email;
+   document.getElementById("conttype").innerHTML = 'Preferred mode Contact:'+newdata.preferred_contact;
+   document.getElementById("paytype").innerHTML = 'Preferred mode Payment:'+newdata.preferred_payment;
+   document.getElementById("donations").innerHTML = 'Amount:'+newdata.donation_amount;
+   document.getElementById("donationFrequency").innerHTML = 'Donation Frequency:'+newdata.donation_frequency;
+   document.getElementById("comments").innerHTML = 'Comment:'+newdata.comments;
+    var yearlydonations = 0;
+  //request for currency conversion in from Euro to USD
+
+  if(newdata.preferred_payment==='Euro'){
+    //request for currency conversion
+    request.open('GET', 'https://free.currconv.com/api/v7/convert?apiKey=81f08bdce1a01f337f8d&compact=ultra&q=EUR_USD', true)
+    request.onload = function () {
+      // Begin accessing JSON data here
+      var data = JSON.parse(this.response)
+
+      if (request.status >= 200 && request.status < 400) {
+        indollar = data.EUR_USD*newdata.donation_amount;
+        if(newdata.donation_frequency==='Monthly'){
+          yearlydonations = indollar*12;
+          document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+yearlydonations;
+        }else {
+          document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+indollar;
+        }
+      } else {
+        console.log('error converting to dollar')
+      }
+    }
+    request.send()
+  }
+  //request for currency conversion in from BTC to USD
+  if(newdata.preferred_payment==='Bitcoin'){
+
+    request.open('GET', 'https://free.currconv.com/api/v7/convert?apiKey=81f08bdce1a01f337f8d&compact=ultra&q=BTC_USD', true)
+    request.onload = function () {
+      // Begin accessing JSON data here
+      var data = JSON.parse(this.response)
+      if (request.status >= 200 && request.status < 400) {
+        console.log(data.BTC_USD);
+        indollar = data.BTC_USD*newdata.donation_amount;
+        if(newdata.donation_frequency==='Monthly'){
+          yearlydonations = indollar*12;
+          document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+yearlydonations;
+        }else {
+          document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+indollar;
+        }
+      } else {
+        console.log('error converting to dollar')
+      }
+    }
+    request.send()
+  }
+  if(newdata.preferred_payment==='USD'){
+    if(newdata.donation_frequency==='Monthly'){
+      yearlydonations = newdata.donation_amount*12;
+      document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+yearlydonations;
+    }else {
+      document.getElementById("donations_yearly").innerHTML = 'Your Yearly Donations:'+newdata.donation_amount;
+    }
+  }
+  function cancel(){
+  alert('Thank you for your consideration.');
+   window.location = "index.html";
+}
+
+function donate() {
+    if(sessionStorage.getItem('edit') === 'yes'){
+      fetch('/updatedonor', {
+        method: 'PUT',
+        body: JSON.stringify(newdata),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then(res => res.json())
+              .then(res => {
+                var errorcode = JSON.stringify(res.errno);
+                var successcode = res.message;
+                if(successcode === 'success'){
+                  sessionStorage.setItem('edit','no');
+                }
+              })
+              .catch(function (res) {
+              });
+
+    }else{
+      fetch('/donations', {
+        method: 'POST',
+        body: JSON.stringify(newdata),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then(res => res.json())
+              .then(res => {
+                var errorcode = JSON.stringify(res.errno);
+                var successcode = res.message;
+                if(errorcode === "1062"){
+                  alert('you have already donated before with same email address please consider editing your details or using a different email address');
+                  window.location = "index.html";
+                }
+                if(successcode === 'success'){
+                  alert('Thank you for your donation, someone will contact you soon')
+                  window.location = "index.html";
+                  sessionStorage.setItem('edit','no');
+
+
+                }
+              })
+              .catch(function (res) {
+              });
+    }
+
+}
+</script>
+</body>
