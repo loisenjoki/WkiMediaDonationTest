@@ -10,7 +10,7 @@
 git clone https://github.com/loisenjoki/wikimediaDonationTest
 on the directory folder run
 ```
-npm istall
+npm install
 ```
 ## MySQL Database setup
 mysql CREATE DATABASE donations_db
