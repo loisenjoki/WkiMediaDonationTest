@@ -13,9 +13,9 @@ router.get('/alldonations',async (req,res,next) =>{
     let sql = `SELECT * FROM donors_tbl`;
     await mysqlConfig.query(sql,(err,result)=>{
         if(err){
-          //  res.send();
+            res.send();
         }else {
-            // res.send(result);
+             res.send(result);
         }
     })
 });
@@ -27,11 +27,11 @@ router.post('/donations', async (req, res, next) => {
 
   await mysqlConfig.query(sql,donorDetails,function(err, result){
       if (err) {
-         // res.send(err)
-       //   next(err) // Pass errors to Express.
+          res.send(err)
+          next(err) // Pass errors to Express.
       } else {
          // window.sessionStorage.setItem('userID', result.insertId);
-        //  res.status(200).send({'message':'success'})
+          res.status(200).send({'message':'success'})
       }
       });
 });
