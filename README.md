@@ -1,6 +1,6 @@
-# wikimediaDonationTest
+# WikimediaDonationTest
 ## Features
-# MySQL database
+- MySQL database
 - Node js server Express
 - use NPM
 - Unit test with Mocha & Chai
@@ -10,13 +10,13 @@
 git clone https://github.com/loisenjoki/wikimediaDonationTest
 on the directory folder run
 ```
-npm istall
+npm install
 ```
 ## MySQL Database setup
 mysql CREATE DATABASE donations_db
 ###create table
 ```
-CREATE TABLE IF NOT EXISTS tbl_test(
+CREATE TABLE IF NOT EXISTS tbl_donors(
     id INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     first_name text  NOT NULL,last_name text  NOT NULL,street_address text  NOT NULL,
     city varchar(255) NOT NULL,state_region varchar(255) NOT NULL,
@@ -28,4 +28,4 @@ CREATE TABLE IF NOT EXISTS tbl_test(
 );
 ```
 or import donors_tbl.sql file into your MySQL database
-####run the project ``` npm start ```
+#### run the project ``` npm start ```

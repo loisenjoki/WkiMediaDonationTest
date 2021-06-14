@@ -39,8 +39,6 @@ function asyncFunction() {
                  .end((err, response) => {
                      response.should.have.status(200);
                      response.should.contain('email');
-
-
                  });
          });
      })
