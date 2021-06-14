@@ -14,9 +14,10 @@ npm install
 ```
 ## MySQL Database setup
 mysql CREATE DATABASE donations_db
-###create table
+### create table
 ```
-CREATE TABLE IF NOT EXISTS tbl_donors(
+
+CREATE TABLE IF NOT EXISTS donations_db(
     id INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     first_name text  NOT NULL,last_name text  NOT NULL,street_address text  NOT NULL,
     city varchar(255) NOT NULL,state_region varchar(255) NOT NULL,
