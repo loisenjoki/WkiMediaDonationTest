@@ -1,6 +1,6 @@
 # wikimediaDonationTest
 ## Features
-# MySQL database
+- MySQL database
 - Node js server Express
 - use NPM
 - Unit test with Mocha & Chai
