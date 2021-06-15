@@ -7,13 +7,13 @@
 - currency conversion service from link https://free.currencyconverterapi.com/
 
 ## Getting started
-git clone https://github.com/loisenjoki/wikimediaDonationTest
-on the directory folder run
+- git clone https://github.com/loisenjoki/wikimediaDonationTest
+- on the directory folder run
 ```
 npm install
 ```
 ## MySQL Database setup
-mysql CREATE DATABASE donations_db
+creat a database and add a table you can use this SQL command to creat the table or import  donors_tbl.sql into your database.
 ### create table
 ```
 
@@ -28,5 +28,5 @@ CREATE TABLE IF NOT EXISTS donations_db(
     comments text DEFAULT NULL
 );
 ```
-or import donors_tbl.sql file into your MySQL database
-#### run the project ``` npm start ```
+
+#### finally run the project ``` npm start ```
