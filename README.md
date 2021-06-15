@@ -13,7 +13,7 @@
 npm install
 ```
 ## MySQL Database setup
-creat a database and add a table you can use this SQL command to creat the table or import  donors_tbl.sql into your database.
+creat a database and add a table you can use this SQL command below to creat the table or import  donors_tbl.sql into your database.
 ### create table
 ```
 
